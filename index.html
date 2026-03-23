@@ -30,32 +30,22 @@ body { background: #0a0a1a; color: white; font-family: Arial, sans-serif; min-he
 </div>
 <script>
 Pi.init({ version: "2.0", sandbox: false });
-Pi.authenticate(['payments'], onIncompletePaymentFound);
-
-function onIncompletePaymentFound(payment) {
-  fetch('/.netlify/functions/payments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'complete', paymentId: payment.identifier })
-  });
-}
-Pi.authenticate(['payments'], onIncompletePaymentFound);
-
-function onIncompletePaymentFound(payment) {
-  fetch('/.netlify/functions/payments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'complete', paymentId: payment.identifier })
-  });
+Pi.authenticate(['payments'], function(payment) {
+  if (payment) {
+    fetch('/.netlify/functions/payments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'complete', paymentId: payment.identifier })
+    });
   }
+});
 
 async function payWithPi() {
   const btn = document.querySelector('.btn');
   btn.disabled = true;
   btn.textContent = '⏳ Duke u procesuar...';
-  
   try {
-    const payment = await Pi.createPayment({
+    await Pi.createPayment({
       amount: 1,
       memo: "AiVault Test Payment",
       metadata: { type: "test" }
@@ -81,7 +71,6 @@ async function payWithPi() {
   } catch(e) {
     showStatus('❌ Gabim: ' + e.message, 'error');
   }
-  
   btn.disabled = false;
   btn.textContent = '⚡ Paguaj me Pi';
 }
