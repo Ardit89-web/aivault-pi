@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AiVault.pi</title>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; color: white; font-family: Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.logo { font-size: 2rem; font-weight: bold; color: #f0b429; margin-bottom: 10px; }
+.logo span { color: #a78bfa; }
+.subtitle { color: #888; margin-bottom: 40px; }
+.card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 16px; padding: 30px; width: 90%; max-width: 400px; text-align: center; }
+.btn { background: #f0b429; color: #000; border: none; padding: 15px 30px; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 20px; }
+.btn:hover { background: #d4a017; }
+.status { margin-top: 20px; padding: 10px; border-radius: 8px; display: none; }
+.success { background: #1a3a1a; color: #4caf50; display: block; }
+.error { background: #3a1a1a; color: #f44336; display: block; }
+</style>
+</head>
+<body>
+<div class="logo">AiVault<span>.pi</span></div>
+<p class="subtitle">Platforma e parë Pi për rental shtëpish</p>
+<div class="card">
+  <h2>🔐 Pi Payment</h2>
+  <p style="color:#888; margin-top:10px;">Bëj një pagesë testimi prej π1</p>
+  <button class="btn" onclick="payWithPi()">⚡ Paguaj me Pi</button>
+  <div id="status" class="status"></div>
+</div>
+<script>
+Pi.init({ version: "2.0", sandbox: false });
+
+async function payWithPi() {
+  const btn = document.querySelector('.btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Duke u procesuar...';
+  
+  try {
+    const payment = await Pi.createPayment({
+      amount: 1,
+      memo: "AiVault Test Payment",
+      metadata: { type: "test" }
+    }, {
+      onReadyForServerApproval: async (paymentId) => {
+        await fetch('/.netlify/functions/payments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'approve', paymentId })
+        });
+      },
+      onReadyForServerCompletion: async (paymentId, txid) => {
+        await fetch('/.netlify/functions/payments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'complete', paymentId, txid })
+        });
+        showStatus('✅ Pagesa u krye me sukses!', 'success');
+      },
+      onCancel: () => { showStatus('❌ Pagesa u anulua!', 'error'); },
+      onError: (err) => { showStatus('❌ Gabim: ' + err.message, 'error'); }
+    });
+  } catch(e) {
+    showStatus('❌ Gabim: ' + e.message, 'error');
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '⚡ Paguaj me Pi';
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + type;
+}
+</script>
+</body>
+</html>
