@@ -38,6 +38,15 @@ function onIncompletePaymentFound(payment) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'complete', paymentId: payment.identifier })
   });
+}
+Pi.authenticate(['payments'], onIncompletePaymentFound);
+
+function onIncompletePaymentFound(payment) {
+  fetch('/.netlify/functions/payments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'complete', paymentId: payment.identifier })
+  });
   }
 
 async function payWithPi() {
