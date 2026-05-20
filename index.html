@@ -1,179 +1,91 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AiVault.pi — Platforma e Parë Pi</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AiVault.pi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --pi: #7B5EA7; --pi-light: #A07FCC; --pi-dark: #4A3570; --gold: #F0B429; --gold-dim: #C8952A; --bg: #0A0812; --surface: #130F1E; --surface2: #1C1730; --text: #EDE9F6; --muted: #7A7090; --success: #3ECF8E; --error: #FF6B6B; }
-    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 50% at 20% 20%, rgba(123,94,167,0.18) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(240,180,41,0.10) 0%, transparent 60%); pointer-events: none; z-index: 0; }
-    body::after { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(123,94,167,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(123,94,167,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
-    .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; }
-    .header { text-align: center; margin-bottom: 2rem; animation: fadeDown 0.7s ease both; }
-    .logo-ring { width: 76px; height: 76px; margin: 0 auto 1.2rem; position: relative; }
-    .logo-ring svg { width: 100%; height: 100%; animation: spinSlow 10s linear infinite; }
-    .logo-inner { position: absolute; inset: 13px; background: linear-gradient(135deg, var(--pi), var(--pi-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: white; }
-    .brand { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg, var(--text) 30%, var(--pi-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .tagline { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.4rem; }
-    .auth-card { width: 100%; max-width: 430px; background: var(--surface); border: 1px solid rgba(123,94,167,0.2); border-radius: 20px; padding: 1.5rem 2rem; margin-bottom: 1rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: fadeUp 0.7s 0.1s ease both; }
-    .auth-status { display: flex; align-items: center; gap: 0.8rem; }
-    .auth-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pi), var(--pi-dark)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; color: white; font-size: 1rem; flex-shrink: 0; }
-    .auth-info { flex: 1; min-width: 0; }
-    .auth-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .auth-label { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; letter-spacing: 0.1em; text-transform: uppercase; }
-    .signin-btn { padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--pi), var(--pi-dark)); border: none; border-radius: 8px; color: white; font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
-    .signin-btn:hover:not(:disabled) { opacity: 0.85; }
-    .signin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .card { width: 100%; max-width: 430px; background: var(--surface); border: 1px solid rgba(123,94,167,0.2); border-radius: 20px; padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: fadeUp 0.7s 0.15s ease both; }
-    .card-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
-    .card-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(123,94,167,0.3), transparent); }
-    .amount-display { background: var(--surface2); border: 1px solid rgba(123,94,167,0.15); border-radius: 14px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
-    .amount-display::before { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(240,180,41,0.12), transparent 70%); border-radius: 50%; }
-    .amount-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
-    .amount-value { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--gold); line-height: 1; text-shadow: 0 0 30px rgba(240,180,41,0.3); }
-    .amount-unit { font-size: 1rem; color: var(--gold-dim); margin-left: 0.3rem; vertical-align: super; font-weight: 600; }
-    .amount-memo { font-size: 0.72rem; color: var(--muted); margin-top: 0.5rem; }
-    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid rgba(123,94,167,0.08); font-size: 0.8rem; }
-    .info-row:last-child { border-bottom: none; }
-    .info-key { color: var(--muted); }
-    .info-val { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
-    .badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.65rem; font-weight: 600; }
-    .badge-sandbox { background: rgba(62,207,142,0.12); color: var(--success); border: 1px solid rgba(62,207,142,0.2); }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
-    .pay-btn { width: 100%; margin-top: 1.8rem; padding: 1rem; background: linear-gradient(135deg, var(--pi) 0%, var(--pi-dark) 100%); border: none; border-radius: 12px; color: white; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(123,94,167,0.4); }
-    .pay-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,94,167,0.5); }
-    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status-panel { margin-top: 1.2rem; padding: 1rem 1.2rem; border-radius: 12px; font-size: 0.78rem; line-height: 1.6; display: none; }
-    .status-panel.show { display: block; }
-    .status-processing { background: rgba(123,94,167,0.1); border: 1px solid rgba(123,94,167,0.25); color: var(--pi-light); }
-    .status-success { background: rgba(62,207,142,0.08); border: 1px solid rgba(62,207,142,0.25); color: var(--success); }
-    .status-error { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); color: var(--error); }
-    .status-cancel { background: rgba(240,180,41,0.08); border: 1px solid rgba(240,180,41,0.2); color: var(--gold-dim); }
-    .status-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem; }
-    .spinner { width: 14px; height: 14px; border: 2px solid rgba(160,127,204,0.3); border-top-color: var(--pi-light); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; flex-shrink: 0; }
-    .txid { font-size: 0.65rem; word-break: break-all; opacity: 0.8; margin-top: 0.4rem; background: rgba(0,0,0,0.2); padding: 0.4rem 0.6rem; border-radius: 6px; }
-    .coming-soon { width: 100%; max-width: 430px; margin-top: 1rem; animation: fadeUp 0.7s 0.25s ease both; }
-    .coming-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 0.8rem; }
-    .modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
-    .module-card { background: var(--surface); border: 1px solid rgba(123,94,167,0.12); border-radius: 12px; padding: 0.9rem 1rem; display: flex; align-items: center; gap: 0.7rem; transition: border-color 0.2s; }
-    .module-card:hover { border-color: rgba(123,94,167,0.3); }
-    .module-icon { font-size: 1.3rem; }
-    .module-name { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--text); }
-    .module-status { font-size: 0.6rem; color: var(--muted); margin-top: 0.1rem; }
-    .footer { margin-top: 2rem; text-align: center; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
-    .footer a { color: var(--pi-light); text-decoration: none; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes spinSlow { to { transform: rotate(360deg); } }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    :root{--gold:#f5c842;--pi:#3a0ca3;--dark:#07030f;--card:#110d1e;--accent:#7b2fff;--text:#e8e0f5;--muted:#7a6e94;}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(58,12,163,0.25) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(123,47,255,0.18) 0%,transparent 70%);pointer-events:none;z-index:0;}
+    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid rgba(245,200,66,0.15);}
+    .logo{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--gold);text-shadow:0 0 24px rgba(245,200,66,0.5);}
+    .logo span{color:var(--accent);}
+    .pi-badge{background:linear-gradient(135deg,var(--pi),var(--accent));padding:.25rem .8rem;border-radius:20px;font-family:'Orbitron',monospace;font-size:.7rem;margin-left:.5rem;}
+    nav{display:flex;flex-wrap:wrap;gap:.5rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.3rem .7rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:var(--gold);background:rgba(245,200,66,0.08);}
+    .hero{position:relative;z-index:5;text-align:center;padding:5rem 2rem 3rem;}
+    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;background:linear-gradient(135deg,var(--gold) 0%,#fff 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero p{margin-top:1rem;color:var(--muted);font-size:1.05rem;max-width:500px;margin-inline:auto;}
+    .modules-grid{position:relative;z-index:5;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;padding:2rem 3rem 4rem;max-width:1400px;margin-inline:auto;}
+    .module-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:2rem;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;}
+    .module-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--mod-color,var(--accent)) 0%,transparent 60%);opacity:.07;transition:opacity .3s;}
+    .module-card:hover{transform:translateY(-6px);border-color:var(--mod-color,var(--accent));box-shadow:0 20px 40px rgba(0,0,0,0.4);}
+    .module-card:hover::before{opacity:.14;}
+    .mod-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .mod-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:var(--mod-color,var(--gold));margin-bottom:.5rem;}
+    .mod-desc{font-size:.88rem;color:var(--muted);line-height:1.6;}
+    .mod-tag{display:inline-block;margin-top:1rem;background:rgba(255,255,255,0.06);border-radius:20px;padding:.2rem .8rem;font-size:.72rem;color:var(--muted);}
+    footer{position:relative;z-index:5;text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.05);color:var(--muted);font-size:.8rem;}
   </style>
 </head>
 <body>
-<div class="page">
-  <div class="header">
-    <div class="logo-ring">
-      <svg viewBox="0 0 76 76" fill="none"><circle cx="38" cy="38" r="36" stroke="url(#gr)" stroke-width="1.5" stroke-dasharray="6 4"/><defs><linearGradient id="gr" x1="0" y1="0" x2="76" y2="76" gradientUnits="userSpaceOnUse"><stop stop-color="#7B5EA7"/><stop offset="1" stop-color="#F0B429"/></linearGradient></defs></svg>
-      <div class="logo-inner">Ai</div>
-    </div>
-    <div class="brand">AiVault.pi</div>
-    <div class="tagline">Platforma e Parë Pi · Albanian &amp; Kosovar Community</div>
+  <header>
+    <div class="logo">AiVault<span>.pi</span><span class="pi-badge">π</span></div>
+    <nav>
+      <a href="pi-payment.html">💳 Pi Payment</a>
+      <a href="pi-rent.html">🏠 Pi Rent</a>
+      <a href="pi-bazaar.html">🛍️ Pi Bazaar</a>
+      <a href="library.html">📚 Libraria</a>
+      <a href="game-zone.html">🎮 Lojëra</a>
+      <a href="pi-connect.html">🔗 Pi Connect</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <h1>AiVault.pi</h1>
+    <p>Ekosistemi i plotë i Pi Network — Pagesa, Qira, Treg, Kulturë, Argëtim & Lidhje</p>
+  </section>
+  <div class="modules-grid">
+    <a href="pi-payment.html" class="module-card" style="--mod-color:#f5c842">
+      <div class="mod-icon">💳</div>
+      <div class="mod-title">Pi Payment</div>
+      <div class="mod-desc">Dërgoni dhe merrni Pi Coin direkt. Pagesa të shpejta dhe të sigurta brenda ekosistemit AiVault.</div>
+      <span class="mod-tag">Pagesa · Pi SDK</span>
+    </a>
+    <a href="pi-rent.html" class="module-card" style="--mod-color:#f5c842">
+      <div class="mod-icon">🏠</div>
+      <div class="mod-title">Pi Rent</div>
+      <div class="mod-desc">Jepni dhe merrni me qira prona, hapësira dhe pajisje duke paguar me Pi Coin.</div>
+      <span class="mod-tag">Qira · Pi Coin</span>
+    </a>
+    <a href="pi-bazaar.html" class="module-card" style="--mod-color:#ff6b6b">
+      <div class="mod-icon">🛍️</div>
+      <div class="mod-title">Pi Bazaar</div>
+      <div class="mod-desc">Tregu dixhital ku mund të blini dhe shisni produkte ekskluzivisht me Pi Coin.</div>
+      <span class="mod-tag">Tregti · Marketplace</span>
+    </a>
+    <a href="library.html" class="module-card" style="--mod-color:#4cc9f0">
+      <div class="mod-icon">📚</div>
+      <div class="mod-title">Libraria</div>
+      <div class="mod-desc">Koleksion librash dixhital, kursesh dhe burimesh mësimore me akses Pi Coin.</div>
+      <span class="mod-tag">Edukim · Dituri</span>
+    </a>
+    <a href="game-zone.html" class="module-card" style="--mod-color:#b5179e">
+      <div class="mod-icon">🎮</div>
+      <div class="mod-title">Lojëra</div>
+      <div class="mod-desc">Arena e lojrave me shpërblime reale në Pi. Sfidoni lojtarë globalë dhe fitoni Pi.</div>
+      <span class="mod-tag">Gaming · Shpërblime</span>
+    </a>
+    <a href="pi-connect.html" class="module-card" style="--mod-color:#06d6a0">
+      <div class="mod-icon">🔗</div>
+      <div class="mod-title">Pi Connect</div>
+      <div class="mod-desc">Rrjeti social i Pi komunitetit. Gjeni partnerë biznesi dhe ndërtoni së bashku.</div>
+      <span class="mod-tag">Komunitet · Rrjet</span>
+    </a>
   </div>
-
-  <div class="auth-card">
-    <div class="auth-status">
-      <div class="auth-avatar" id="auth-avatar">?</div>
-      <div class="auth-info">
-        <div class="auth-name" id="auth-name">Duke u identifikuar...</div>
-        <div class="auth-label" id="auth-label">Pi Network Auth</div>
-      </div>
-      <button class="signin-btn" id="signin-btn" disabled>Duke u ngarkuar...</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label"><span>⬡</span> Pi Payment</div>
-    <div class="amount-display">
-      <div class="amount-label">Shuma e Pagesës</div>
-      <div class="amount-value">π<span>1</span><span class="amount-unit">Pi</span></div>
-      <div class="amount-memo">AiVault.pi — Test Payment</div>
-    </div>
-    <div class="info-row"><span class="info-key">Rrjeti</span><span class="info-val"><span class="badge badge-sandbox"><span class="dot"></span>Sandbox</span></span></div>
-    <div class="info-row"><span class="info-key">Aplikacioni</span><span class="info-val">aivault</span></div>
-    <div class="info-row"><span class="info-key">Wallet</span><span class="info-val">GDNQ3I…LC2</span></div>
-    <div class="info-row"><span class="info-key">Përdoruesi</span><span class="info-val" id="pay-username">—</span></div>
-    <button class="pay-btn" id="pay-btn" disabled>⬡ &nbsp;Paguaj me Pi</button>
-    <div class="status-panel" id="status-panel"></div>
-  </div>
-
-  <div class="coming-soon">
-    <div class="coming-label">Modulet e AiVault.pi</div>
-    <div class="modules-grid">
-      <div class="module-card"><span class="module-icon">🏠</span><div><div class="module-name">Pi Rent</div><div class="module-status">Duke u ndërtuar...</div></div></div>
-      <div class="module-card"><span class="module-icon">🛒</span><div><div class="module-name">Pi Bazaar</div><div class="module-status">Duke u ndërtuar...</div></div></div>
-      <div class="module-card"><span class="module-icon">👥</span><div><div class="module-name">Pi Connect</div><div class="module-status">Duke u ndërtuar...</div></div></div>
-      <div class="module-card"><span class="module-icon">📚</span><div><div class="module-name">Libraria</div><div class="module-status">Duke u ndërtuar...</div></div></div>
-    </div>
-  </div>
-  <div class="footer"><a href="https://aivault-pi.netlify.app">aivault-pi.netlify.app</a> · © 2025 AiVault.pi · @cepele78</div>
-</div>
-
-<script>
-var SANDBOX=true,PI_API_KEY="gko9cdlqs2dlhwfwma72ldh5pixj1e5i3fkyucuxexbmaax8prhkgiyvnkjumf0q";
-var statusPanel=document.getElementById("status-panel"),payBtn=document.getElementById("pay-btn"),signinBtn=document.getElementById("signin-btn"),authAvatar=document.getElementById("auth-avatar"),authName=document.getElementById("auth-name"),authLabel=document.getElementById("auth-label"),payUsername=document.getElementById("pay-username"),currentUser=null;
-
-function showStatus(type,title,body,txid){statusPanel.className="status-panel show status-"+type;var spinner=type==="processing"?'<span class="spinner"></span>':"";var icons={success:"✓ ",error:"✕ ",cancel:"— "};statusPanel.innerHTML='<div class="status-title">'+spinner+(icons[type]||"")+title+"</div><div>"+body+"</div>"+(txid?'<div class="txid">TxID: '+txid+"</div>":"");}
-
-function setUserUI(u){currentUser=u;authAvatar.textContent=u.charAt(0).toUpperCase();authName.textContent="@"+u;authLabel.textContent="✓ Identifikuar me Pi Network";authLabel.style.color="var(--success)";signinBtn.textContent="Ri-identifikohu";signinBtn.disabled=false;payBtn.disabled=false;payUsername.textContent="@"+u;}
-
-function setGuestUI(msg){currentUser=null;authAvatar.textContent="?";authName.textContent=msg||"Jo i identifikuar";authLabel.textContent="Pi Network Auth";authLabel.style.color="";signinBtn.textContent="Identifikohu me Pi";signinBtn.disabled=false;payBtn.disabled=true;payUsername.textContent="—";}
-
-async function doAuth(){
-  signinBtn.disabled=true;signinBtn.textContent="Duke u identifikuar...";authName.textContent="Duke kontaktuar Pi Network...";
-  if(typeof Pi==="undefined"){setGuestUI("Hape në Pi Browser");return;}
-  try{
-    await Pi.init({version:"2.0",sandbox:SANDBOX});
-    var auth=await Pi.authenticate(["username","payments"],async function(payment){
-      try{if(payment.transaction&&payment.transaction.txid){await fetch("https://api.minepi.com/v2/payments/"+payment.identifier+"/complete",{method:"POST",headers:{"Authorization":"Key "+PI_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({txid:payment.transaction.txid});}}catch(e){console.warn(e);}
-    });
-    if(auth&&auth.user&&auth.user.username){setUserUI(auth.user.username);}
-    else{setGuestUI("Identifikimi dështoi");}
-  }catch(err){console.error(err);setGuestUI("Gabim: "+(err.message||"provo përsëri"));}
-}
-
-function resetPayBtn(){payBtn.disabled=false;payBtn.innerHTML="⬡ &nbsp;Paguaj me Pi";}
-
-async function startPayment(){
-  if(!currentUser){showStatus("error","Identifikohuni fillimisht","Shtypni butonin 'Identifikohu me Pi' më lart.");return;}
-  payBtn.disabled=true;payBtn.textContent="Duke procesuar...";
-  showStatus("processing","Duke hapur pagesën...","Po inicializojmë transaksionin Pi...");
-  try{
-    await Pi.createPayment({amount:1,memo:"AiVault.pi — Test Payment",metadata:{app:"aivault",user:currentUser}},{
-      onReadyForServerApproval:async function(paymentId){
-        showStatus("processing","Duke aprovuar...","Po kontaktojmë Pi Network...");
-        try{var r=await fetch("https://api.minepi.com/v2/payments/"+paymentId+"/approve",{method:"POST",headers:{"Authorization":"Key "+PI_API_KEY,"Content-Type":"application/json"}});console.log("Approved:",await r.json());showStatus("processing","U aprovua! Po presim blockchain...","Transaksioni është dërguar...");}
-        catch(e){showStatus("error","Gabim në aprovim",e.message||"Provo përsëri.");resetPayBtn();}
-      },
-      onReadyForServerCompletion:async function(paymentId,txid){
-        showStatus("processing","Duke konfirmuar...","Po ruajmë transaksionin...",txid);
-        try{var r=await fetch("https://api.minepi.com/v2/payments/"+paymentId+"/complete",{method:"POST",headers:{"Authorization":"Key "+PI_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({txid:txid})});console.log("Completed:",await r.json());showStatus("success","Pagesa u krye me sukses! 🎉","π1 u dërgua me sukses tek AiVault.pi.",txid);payBtn.innerHTML="✓ &nbsp;Paguaj Përsëri";payBtn.disabled=false;}
-        catch(e){showStatus("error","Gabim në konfirmim",e.message||"Provo përsëri.");resetPayBtn();}
-      },
-      onCancel:function(){showStatus("cancel","Pagesa u anulua","Shtypët anulo.");resetPayBtn();},
-      onError:function(error){showStatus("error","Gabim në pagesë",(error&&error.message)||"Gabim i panjohur.");resetPayBtn();}
-    });
-  }catch(err){showStatus("error","Nuk u hap dritarja",(err&&err.message)||"Sigurohu që je brenda Pi Browser.");resetPayBtn();}
-}
-
-window.addEventListener("DOMContentLoaded",function(){
-  signinBtn.addEventListener("click",doAuth);
-  payBtn.addEventListener("click",startPayment);
-  doAuth();
-});
-</script>
+  <footer>&copy; 2025 AiVault.pi — Ndërtuar mbi Pi Network</footer>
 </body>
 </html>
