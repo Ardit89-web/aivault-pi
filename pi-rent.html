@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pi Rent — AiVault.pi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--gold:#f5c842;--pi:#3a0ca3;--dark:#07030f;--card:#110d1e;--accent:#7b2fff;--text:#e8e0f5;--muted:#7a6e94;--mod:#f5c842;}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(58,12,163,0.25) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(123,47,255,0.18) 0%,transparent 70%);pointer-events:none;z-index:0;}
+    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid rgba(245,200,66,0.15);}
+    .logo{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--gold);text-shadow:0 0 24px rgba(245,200,66,0.5);text-decoration:none;}
+    .logo span{color:var(--accent);}
+    .pi-badge{background:linear-gradient(135deg,var(--pi),var(--accent));padding:.25rem .8rem;border-radius:20px;font-family:'Orbitron',monospace;font-size:.7rem;margin-left:.5rem;}
+    nav{display:flex;flex-wrap:wrap;gap:.5rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.3rem .7rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:var(--gold);background:rgba(245,200,66,0.08);}
+    .hero{position:relative;z-index:5;text-align:center;padding:4rem 2rem 2rem;}
+    .hero-icon{font-size:4rem;margin-bottom:1rem;}
+    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--mod);}
+    .hero p{margin-top:1rem;color:var(--muted);font-size:1.05rem;max-width:500px;margin-inline:auto;}
+    .container{position:relative;z-index:5;max-width:900px;margin:0 auto;padding:2rem;}
+    .section-title{font-family:'Orbitron',monospace;font-size:1rem;color:var(--mod);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid rgba(245,200,66,0.2);}
+    .listings{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin-bottom:3rem;}
+    .listing-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;transition:transform .3s,border-color .3s;}
+    .listing-card:hover{transform:translateY(-4px);border-color:var(--mod);}
+    .listing-img{width:100%;height:120px;background:linear-gradient(135deg,rgba(245,200,66,0.15),rgba(123,47,255,0.15));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:3rem;margin-bottom:1rem;}
+    .listing-title{font-weight:600;margin-bottom:.3rem;font-size:.95rem;}
+    .listing-location{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;}
+    .listing-price{color:var(--mod);font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;}
+    .listing-price span{color:var(--muted);font-size:.75rem;font-family:'Sora',sans-serif;font-weight:400;}
+    .btn{display:inline-block;background:linear-gradient(135deg,var(--mod),#c8941a);color:#000;font-weight:700;padding:.6rem 1.4rem;border-radius:10px;text-decoration:none;font-size:.85rem;margin-top:1rem;cursor:pointer;border:none;width:100%;text-align:center;}
+    .post-form{background:var(--card);border:1px solid rgba(245,200,66,0.15);border-radius:20px;padding:2rem;margin-bottom:3rem;}
+    .form-row{margin-bottom:1.2rem;}
+    .form-row label{display:block;color:var(--muted);font-size:.82rem;margin-bottom:.4rem;}
+    .form-row input,.form-row textarea,.form-row select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:.7rem 1rem;color:var(--text);font-family:'Sora',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+    .form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--mod);}
+    .form-row textarea{min-height:80px;resize:vertical;}
+    .coming-soon{text-align:center;padding:2rem;color:var(--muted);font-size:.9rem;}
+    .coming-soon .badge{display:inline-block;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.3);color:var(--mod);padding:.3rem 1rem;border-radius:20px;font-size:.75rem;margin-bottom:1rem;}
+    footer{position:relative;z-index:5;text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.05);color:var(--muted);font-size:.8rem;margin-top:2rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">AiVault<span>.pi</span><span class="pi-badge">π</span></a>
+    <nav>
+      <a href="pi-payment.html">💳 Pi Payment</a>
+      <a href="pi-rent.html" style="color:var(--gold)">🏠 Pi Rent</a>
+      <a href="pi-bazaar.html">🛍️ Pi Bazaar</a>
+      <a href="library.html">📚 Libraria</a>
+      <a href="game-zone.html">🎮 Lojëra</a>
+      <a href="pi-connect.html">🔗 Pi Connect</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <div class="hero-icon">🏠</div>
+    <h1>Pi Rent</h1>
+    <p>Jepni dhe merrni me qira prona, hapësira dhe pajisje duke paguar me Pi Coin</p>
+  </section>
+  <div class="container">
+    <div class="section-title">🏘️ Prona të Disponueshme</div>
+    <div class="listings">
+      <div class="listing-card">
+        <div class="listing-img">🏢</div>
+        <div class="listing-title">Apartament 2+1, Tiranë</div>
+        <div class="listing-location">📍 Blloku, Tiranë</div>
+        <div class="listing-price">500 π <span>/ muaj</span></div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img">🏡</div>
+        <div class="listing-title">Vilë me Pishinë, Durrës</div>
+        <div class="listing-location">📍 Golem, Durrës</div>
+        <div class="listing-price">1200 π <span>/ muaj</span></div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img">🏪</div>
+        <div class="listing-title">Lokal Komercial, Prishtinë</div>
+        <div class="listing-location">📍 Qendra, Prishtinë</div>
+        <div class="listing-price">800 π <span>/ muaj</span></div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+    </div>
+    <div class="section-title">➕ Posto Pronën Tënde</div>
+    <div class="post-form">
+      <div class="form-row">
+        <label>Lloji i Pronës</label>
+        <select><option>Apartament</option><option>Shtëpi</option><option>Lokal</option><option>Zyrë</option><option>Tokë</option></select>
+      </div>
+      <div class="form-row">
+        <label>Titulli i Postimit</label>
+        <input type="text" placeholder="p.sh. Apartament 1+1 në Tiranë"/>
+      </div>
+      <div class="form-row">
+        <label>Vendndodhja</label>
+        <input type="text" placeholder="Qyteti, Lagja"/>
+      </div>
+      <div class="form-row">
+        <label>Çmimi (π / muaj)</label>
+        <input type="number" placeholder="500"/>
+      </div>
+      <div class="form-row">
+        <label>Përshkrimi</label>
+        <textarea placeholder="Përshkruani pronën tuaj..."></textarea>
+      </div>
+      <div class="coming-soon">
+        <div class="badge">🔒 Kërkon Autentikim Pi</div>
+        <p>Funksioni i postimit aktivizohet pas aprovimit të AiVault nga Pi Network</p>
+      </div>
+      <button class="btn" disabled style="opacity:0.5;cursor:not-allowed;">Posto me Pi Coin</button>
+    </div>
+  </div>
+  <footer>&copy; 2025 AiVault.pi — Ndërtuar mbi Pi Network</footer>
+</body>
+</html>
