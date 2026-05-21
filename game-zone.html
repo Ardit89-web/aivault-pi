@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lojëra — AiVault.pi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--gold:#f5c842;--pi:#3a0ca3;--dark:#07030f;--card:#110d1e;--accent:#7b2fff;--text:#e8e0f5;--muted:#7a6e94;--mod:#b5179e;}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(58,12,163,0.25) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(181,23,158,0.15) 0%,transparent 70%);pointer-events:none;z-index:0;}
+    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid rgba(245,200,66,0.15);}
+    .logo{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--gold);text-decoration:none;}
+    .logo span{color:var(--accent);}
+    .pi-badge{background:linear-gradient(135deg,var(--pi),var(--accent));padding:.25rem .8rem;border-radius:20px;font-family:'Orbitron',monospace;font-size:.7rem;margin-left:.5rem;}
+    nav{display:flex;flex-wrap:wrap;gap:.5rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.3rem .7rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:var(--gold);background:rgba(245,200,66,0.08);}
+    .hero{position:relative;z-index:5;text-align:center;padding:4rem 2rem 2rem;}
+    .hero-icon{font-size:4rem;margin-bottom:1rem;}
+    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--mod);}
+    .hero p{margin-top:1rem;color:var(--muted);font-size:1.05rem;max-width:500px;margin-inline:auto;}
+    .container{position:relative;z-index:5;max-width:900px;margin:0 auto;padding:2rem;}
+    .section-title{font-family:'Orbitron',monospace;font-size:1rem;color:var(--mod);margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid rgba(181,23,158,0.2);}
+    .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:3rem;}
+    .game-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:1.5rem;text-align:center;transition:transform .3s,border-color .3s;}
+    .game-card:hover{transform:translateY(-6px);border-color:var(--mod);}
+    .game-icon{font-size:3.5rem;margin-bottom:1rem;}
+    .game-name{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;color:var(--mod);margin-bottom:.4rem;}
+    .game-desc{color:var(--muted);font-size:.82rem;line-height:1.5;margin-bottom:1rem;}
+    .game-reward{display:inline-flex;align-items:center;gap:.3rem;background:rgba(245,200,66,0.1);border:1px solid rgba(245,200,66,0.2);padding:.3rem .8rem;border-radius:20px;font-size:.78rem;color:var(--gold);}
+    .coming-soon{text-align:center;padding:1rem 0 0;color:var(--muted);font-size:.8rem;}
+    .coming-soon .badge{display:inline-block;background:rgba(181,23,158,0.1);border:1px solid rgba(181,23,158,0.3);color:var(--mod);padding:.2rem .7rem;border-radius:20px;font-size:.7rem;}
+    .leaderboard{background:var(--card);border:1px solid rgba(181,23,158,0.15);border-radius:20px;padding:1.5rem;margin-bottom:3rem;}
+    .lb-row{display:flex;align-items:center;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+    .lb-row:last-child{border-bottom:none;}
+    .lb-rank{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;width:2rem;text-align:center;}
+    .lb-name{flex:1;font-size:.9rem;}
+    .lb-score{color:var(--gold);font-family:'Orbitron',monospace;font-size:.85rem;}
+    footer{position:relative;z-index:5;text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.05);color:var(--muted);font-size:.8rem;margin-top:2rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">AiVault<span>.pi</span><span class="pi-badge">π</span></a>
+    <nav>
+      <a href="pi-payment.html">💳 Pi Payment</a>
+      <a href="pi-rent.html">🏠 Pi Rent</a>
+      <a href="pi-bazaar.html">🛍️ Pi Bazaar</a>
+      <a href="library.html">📚 Libraria</a>
+      <a href="game-zone.html" style="color:var(--gold)">🎮 Lojëra</a>
+      <a href="pi-connect.html">🔗 Pi Connect</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <div class="hero-icon">🎮</div>
+    <h1>Game Zone</h1>
+    <p>Sfidoni lojtarë globalë dhe fitoni Pi Coin — lojëra klasike shqiptare dhe moderne</p>
+  </section>
+  <div class="container">
+    <div class="section-title">🕹️ Lojërat Tona</div>
+    <div class="games">
+      <div class="game-card">
+        <div class="game-icon">♟️</div>
+        <div class="game-name">Shah Pi</div>
+        <div class="game-desc">Loja klasike e shahut — sfidoni lojtarë nga e gjithë bota</div>
+        <div class="game-reward">🏆 Deri 10 π / fitore</div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🎯</div>
+        <div class="game-name">Kuiz Shqiptar</div>
+        <div class="game-desc">Testo njohuritë për historinë dhe kulturën shqiptare</div>
+        <div class="game-reward">🏆 Deri 5 π / raund</div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🎲</div>
+        <div class="game-name">Domino Pi</div>
+        <div class="game-desc">Loja tradicionale e dominosë me shpërblime Pi</div>
+        <div class="game-reward">🏆 Deri 8 π / ndeshje</div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🔤</div>
+        <div class="game-name">Fjalë Shqipe</div>
+        <div class="game-desc">Gjeni fjalën e fshehur shqipe — sfidë ditore</div>
+        <div class="game-reward">🏆 2 π / ditë</div>
+        <div class="coming-soon"><span class="badge">Së shpejti</span></div>
+      </div>
+    </div>
+    <div class="section-title">🏆 Tabela e Nderimit</div>
+    <div class="leaderboard">
+      <div class="lb-row"><div class="lb-rank" style="color:#ffd700">🥇</div><div class="lb-name">@pionieri_al</div><div class="lb-score">2,450 π</div></div>
+      <div class="lb-row"><div class="lb-rank" style="color:#c0c0c0">🥈</div><div class="lb-name">@skenderbeu_pi</div><div class="lb-score">1,820 π</div></div>
+      <div class="lb-row"><div class="lb-rank" style="color:#cd7f32">🥉</div><div class="lb-name">@ardit_pi</div><div class="lb-score">1,340 π</div></div>
+      <div class="lb-row"><div class="lb-rank" style="color:var(--muted)">4</div><div class="lb-name">@vajza_shqipe</div><div class="lb-score">980 π</div></div>
+      <div class="lb-row"><div class="lb-rank" style="color:var(--muted)">5</div><div class="lb-name">@kosova_pi</div><div class="lb-score">750 π</div></div>
+    </div>
+  </div>
+  <footer>&copy; 2025 AiVault.pi — Ndërtuar mbi Pi Network</footer>
+</body>
+</html>
