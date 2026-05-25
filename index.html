@@ -10,82 +10,132 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;}
     body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(58,12,163,0.25) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 80%,rgba(123,47,255,0.18) 0%,transparent 70%);pointer-events:none;z-index:0;}
-    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid rgba(245,200,66,0.15);}
-    .logo{font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;color:var(--gold);text-shadow:0 0 24px rgba(245,200,66,0.5);}
+    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid rgba(245,200,66,0.15);flex-wrap:wrap;gap:.5rem;}
+    .logo{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:var(--gold);text-shadow:0 0 24px rgba(245,200,66,0.5);}
     .logo span{color:var(--accent);}
-    .pi-badge{background:linear-gradient(135deg,var(--pi),var(--accent));padding:.25rem .8rem;border-radius:20px;font-family:'Orbitron',monospace;font-size:.7rem;margin-left:.5rem;}
-    nav{display:flex;flex-wrap:wrap;gap:.5rem;}
-    nav a{color:var(--muted);text-decoration:none;font-size:.82rem;padding:.3rem .7rem;border-radius:8px;transition:all .2s;}
+    .lang-bar{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem 1rem;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.05);}
+    .lang-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:.3rem .7rem;font-size:.75rem;cursor:pointer;color:var(--muted);transition:all .2s;}
+    .lang-btn:hover,.lang-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(245,200,66,0.1);}
+    nav{display:flex;flex-wrap:wrap;gap:.4rem;}
+    nav a{color:var(--muted);text-decoration:none;font-size:.8rem;padding:.3rem .6rem;border-radius:8px;transition:all .2s;}
     nav a:hover{color:var(--gold);background:rgba(245,200,66,0.08);}
-    .hero{position:relative;z-index:5;text-align:center;padding:5rem 2rem 3rem;}
-    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;background:linear-gradient(135deg,var(--gold) 0%,#fff 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .hero p{margin-top:1rem;color:var(--muted);font-size:1.05rem;max-width:500px;margin-inline:auto;}
-    .modules-grid{position:relative;z-index:5;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;padding:2rem 3rem 4rem;max-width:1400px;margin-inline:auto;}
-    .module-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:2rem;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;}
+    .hero{position:relative;z-index:5;text-align:center;padding:4rem 1rem 2rem;}
+    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,6vw,4.5rem);font-weight:900;background:linear-gradient(135deg,var(--gold) 0%,#fff 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero p{margin-top:1rem;color:var(--muted);font-size:1rem;max-width:500px;margin-inline:auto;}
+    .modules-grid{position:relative;z-index:5;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.3rem;padding:1.5rem 2rem 4rem;max-width:1400px;margin-inline:auto;}
+    .module-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:1.8rem;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block;}
     .module-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--mod-color,var(--accent)) 0%,transparent 60%);opacity:.07;transition:opacity .3s;}
     .module-card:hover{transform:translateY(-6px);border-color:var(--mod-color,var(--accent));box-shadow:0 20px 40px rgba(0,0,0,0.4);}
     .module-card:hover::before{opacity:.14;}
     .mod-icon{font-size:2.5rem;margin-bottom:1rem;}
     .mod-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:var(--mod-color,var(--gold));margin-bottom:.5rem;}
-    .mod-desc{font-size:.88rem;color:var(--muted);line-height:1.6;}
+    .mod-desc{font-size:.86rem;color:var(--muted);line-height:1.6;}
     .mod-tag{display:inline-block;margin-top:1rem;background:rgba(255,255,255,0.06);border-radius:20px;padding:.2rem .8rem;font-size:.72rem;color:var(--muted);}
-    footer{position:relative;z-index:5;text-align:center;padding:2rem;border-top:1px solid rgba(255,255,255,0.05);color:var(--muted);font-size:.8rem;}
+    footer{position:relative;z-index:5;text-align:center;padding:1.5rem;border-top:1px solid rgba(255,255,255,0.05);color:var(--muted);font-size:.8rem;}
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">AiVault<span>.pi</span><span class="pi-badge">π</span></div>
-    <nav>
-      <a href="pi-payment.html">💳 Pi Payment</a>
-      <a href="pi-rent.html">🏠 Pi Rent</a>
-      <a href="pi-bazaar.html">🛍️ Pi Bazaar</a>
-      <a href="library.html">📚 Libraria</a>
-      <a href="game-zone.html">🎮 Lojëra</a>
-      <a href="pi-connect.html">🔗 Pi Connect</a>
-    </nav>
-  </header>
-  <section class="hero">
-    <h1>AiVault.pi</h1>
-    <p>Ekosistemi i plotë i Pi Network — Pagesa, Qira, Treg, Kulturë, Argëtim & Lidhje</p>
-  </section>
-  <div class="modules-grid">
-    <a href="pi-payment.html" class="module-card" style="--mod-color:#f5c842">
-      <div class="mod-icon">💳</div>
-      <div class="mod-title">Pi Payment</div>
-      <div class="mod-desc">Dërgoni dhe merrni Pi Coin direkt. Pagesa të shpejta dhe të sigurta brenda ekosistemit AiVault.</div>
-      <span class="mod-tag">Pagesa · Pi SDK</span>
-    </a>
-    <a href="pi-rent.html" class="module-card" style="--mod-color:#f5c842">
-      <div class="mod-icon">🏠</div>
-      <div class="mod-title">Pi Rent</div>
-      <div class="mod-desc">Jepni dhe merrni me qira prona, hapësira dhe pajisje duke paguar me Pi Coin.</div>
-      <span class="mod-tag">Qira · Pi Coin</span>
-    </a>
-    <a href="pi-bazaar.html" class="module-card" style="--mod-color:#ff6b6b">
-      <div class="mod-icon">🛍️</div>
-      <div class="mod-title">Pi Bazaar</div>
-      <div class="mod-desc">Tregu dixhital ku mund të blini dhe shisni produkte ekskluzivisht me Pi Coin.</div>
-      <span class="mod-tag">Tregti · Marketplace</span>
-    </a>
-    <a href="library.html" class="module-card" style="--mod-color:#4cc9f0">
-      <div class="mod-icon">📚</div>
-      <div class="mod-title">Libraria</div>
-      <div class="mod-desc">Koleksion librash dixhital, kursesh dhe burimesh mësimore me akses Pi Coin.</div>
-      <span class="mod-tag">Edukim · Dituri</span>
-    </a>
-    <a href="game-zone.html" class="module-card" style="--mod-color:#b5179e">
-      <div class="mod-icon">🎮</div>
-      <div class="mod-title">Lojëra</div>
-      <div class="mod-desc">Arena e lojrave me shpërblime reale në Pi. Sfidoni lojtarë globalë dhe fitoni Pi.</div>
-      <span class="mod-tag">Gaming · Shpërblime</span>
-    </a>
-    <a href="pi-connect.html" class="module-card" style="--mod-color:#06d6a0">
-      <div class="mod-icon">🔗</div>
-      <div class="mod-title">Pi Connect</div>
-      <div class="mod-desc">Rrjeti social i Pi komunitetit. Gjeni partnerë biznesi dhe ndërtoni së bashku.</div>
-      <span class="mod-tag">Komunitet · Rrjet</span>
-    </a>
-  </div>
-  <footer>&copy; 2025 AiVault.pi — Ndërtuar mbi Pi Network</footer>
+<header>
+  <div class="logo">AiVault<span>.pi</span></div>
+  <nav>
+    <a href="pi-payment.html" id="nav1">💳 Pi Payment</a>
+    <a href="pi-rent.html" id="nav2">🏠 Pi Rent</a>
+    <a href="pi-bazaar.html" id="nav3">🛍️ Pi Bazaar</a>
+    <a href="library.html" id="nav4">📚 Libraria</a>
+    <a href="game-zone.html" id="nav5">🎮 Lojëra</a>
+    <a href="pi-connect.html" id="nav6">🔗 Pi Connect</a>
+  </nav>
+</header>
+
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('sq',this)">🇦🇱 Shqip</button>
+  <button class="lang-btn" onclick="setLang('en',this)">🇬🇧 English</button>
+  <button class="lang-btn" onclick="setLang('de',this)">🇩🇪 Deutsch</button>
+  <button class="lang-btn" onclick="setLang('zh',this)">🇨🇳 中文</button>
+  <button class="lang-btn" onclick="setLang('es',this)">🇪🇸 Español</button>
+  <button class="lang-btn" onclick="setLang('fr',this)">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('ar',this)">🇸🇦 العربية</button>
+  <button class="lang-btn" onclick="setLang('ru',this)">🇷🇺 Русский</button>
+  <button class="lang-btn" onclick="setLang('pt',this)">🇧🇷 Português</button>
+  <button class="lang-btn" onclick="setLang('hi',this)">🇮🇳 हिन्दी</button>
+  <button class="lang-btn" onclick="setLang('ja',this)">🇯🇵 日本語</button>
+</div>
+
+<section class="hero">
+  <h1>AiVault.pi</h1>
+  <p id="heroSub">Ekosistemi i plotë i Pi Network — Pagesa, Qira, Treg, Kulturë, Argëtim & Lidhje</p>
+</section>
+
+<div class="modules-grid">
+  <a href="pi-payment.html" class="module-card" style="--mod-color:#f5c842">
+    <div class="mod-icon">💳</div>
+    <div class="mod-title" id="t1">Pi Payment</div>
+    <div class="mod-desc" id="d1">Dërgoni dhe merrni Pi Coin direkt. Pagesa të shpejta dhe të sigurta.</div>
+    <span class="mod-tag" id="tag1">Pagesa · Pi SDK</span>
+  </a>
+  <a href="pi-rent.html" class="module-card" style="--mod-color:#f5c842">
+    <div class="mod-icon">🏠</div>
+    <div class="mod-title" id="t2">Pi Rent</div>
+    <div class="mod-desc" id="d2">Jepni dhe merrni me qira prona dhe pajisje me Pi Coin.</div>
+    <span class="mod-tag" id="tag2">Qira · Pi Coin</span>
+  </a>
+  <a href="pi-bazaar.html" class="module-card" style="--mod-color:#ff6b6b">
+    <div class="mod-icon">🛍️</div>
+    <div class="mod-title" id="t3">Pi Bazaar</div>
+    <div class="mod-desc" id="d3">Tregu dixhital ku mund të blini dhe shisni me Pi Coin.</div>
+    <span class="mod-tag" id="tag3">Tregti · Marketplace</span>
+  </a>
+  <a href="library.html" class="module-card" style="--mod-color:#4cc9f0">
+    <div class="mod-icon">📚</div>
+    <div class="mod-title" id="t4">Libraria</div>
+    <div class="mod-desc" id="d4">Koleksion librash dixhital dhe kursesh me akses Pi Coin.</div>
+    <span class="mod-tag" id="tag4">Edukim · Dituri</span>
+  </a>
+  <a href="game-zone.html" class="module-card" style="--mod-color:#b5179e">
+    <div class="mod-icon">🎮</div>
+    <div class="mod-title" id="t5">Lojëra</div>
+    <div class="mod-desc" id="d5">Arena e lojrave me shpërblime reale në Pi Coin.</div>
+    <span class="mod-tag" id="tag5">Gaming · Shpërblime</span>
+  </a>
+  <a href="pi-connect.html" class="module-card" style="--mod-color:#06d6a0">
+    <div class="mod-icon">🔗</div>
+    <div class="mod-title" id="t6">Pi Connect</div>
+    <div class="mod-desc" id="d6">Rrjeti social i Pi komunitetit. Gjeni partnerë dhe ndërtoni.</div>
+    <span class="mod-tag" id="tag6">Komunitet · Rrjet</span>
+  </a>
+</div>
+
+<footer id="footer">© 2025 AiVault.pi — Ndërtuar mbi Pi Network</footer>
+
+<script>
+var T={
+  sq:{sub:'Ekosistemi i plotë i Pi Network — Pagesa, Qira, Treg, Kulturë, Argëtim & Lidhje',nav:['💳 Pi Payment','🏠 Pi Rent','🛍️ Pi Bazaar','📚 Libraria','🎮 Lojëra','🔗 Pi Connect'],titles:['Pi Payment','Pi Rent','Pi Bazaar','Libraria','Lojëra','Pi Connect'],descs:['Dërgoni dhe merrni Pi Coin direkt. Pagesa të shpejta dhe të sigurta.','Jepni dhe merrni me qira prona dhe pajisje me Pi Coin.','Tregu dixhital ku mund të blini dhe shisni me Pi Coin.','Koleksion librash dixhital dhe kursesh me akses Pi Coin.','Arena e lojrave me shpërblime reale në Pi Coin.','Rrjeti social i Pi komunitetit. Gjeni partnerë dhe ndërtoni.'],tags:['Pagesa · Pi SDK','Qira · Pi Coin','Tregti · Marketplace','Edukim · Dituri','Gaming · Shpërblime','Komunitet · Rrjet'],footer:'© 2025 AiVault.pi — Ndërtuar mbi Pi Network'},
+  en:{sub:'The complete Pi Network ecosystem — Payments, Rent, Market, Culture, Gaming & Connect',nav:['💳 Pi Payment','🏠 Pi Rent','🛍️ Pi Bazaar','📚 Library','🎮 Games','🔗 Pi Connect'],titles:['Pi Payment','Pi Rent','Pi Bazaar','Library','Games','Pi Connect'],descs:['Send and receive Pi Coin directly. Fast and secure payments.','Rent properties and equipment with Pi Coin.','Digital marketplace to buy and sell with Pi Coin.','Digital book collection and courses with Pi Coin access.','Gaming arena with real Pi Coin rewards.','Pi community social network. Find partners and build together.'],tags:['Payments · Pi SDK','Rental · Pi Coin','Trade · Marketplace','Education · Knowledge','Gaming · Rewards','Community · Network'],footer:'© 2025 AiVault.pi — Built on Pi Network'},
+  de:{sub:'Das vollständige Pi Network Ökosystem — Zahlungen, Miete, Markt, Kultur, Gaming & Connect',nav:['💳 Pi Payment','🏠 Pi Miete','🛍️ Pi Basar','📚 Bibliothek','🎮 Spiele','🔗 Pi Connect'],titles:['Pi Payment','Pi Miete','Pi Basar','Bibliothek','Spiele','Pi Connect'],descs:['Pi Coin direkt senden und empfangen. Schnelle und sichere Zahlungen.','Immobilien und Geräte mit Pi Coin mieten.','Digitaler Marktplatz zum Kaufen und Verkaufen mit Pi Coin.','Digitale Buchsammlung und Kurse mit Pi Coin Zugang.','Gaming-Arena mit echten Pi Coin Belohnungen.','Pi Community-Netzwerk. Partner finden und gemeinsam aufbauen.'],tags:['Zahlungen · Pi SDK','Miete · Pi Coin','Handel · Marktplatz','Bildung · Wissen','Gaming · Belohnungen','Community · Netzwerk'],footer:'© 2025 AiVault.pi — Auf Pi Network aufgebaut'},
+  zh:{sub:'完整的Pi Network生态系统 — 支付、租赁、市场、文化、游戏与连接',nav:['💳 Pi支付','🏠 Pi租赁','🛍️ Pi集市','📚 图书馆','🎮 游戏','🔗 Pi连接'],titles:['Pi支付','Pi租赁','Pi集市','图书馆','游戏','Pi连接'],descs:['直接发送和接收Pi Coin。快速安全的支付。','用Pi Coin租赁房产和设备。','用Pi Coin买卖的数字市场。','Pi Coin访问的数字图书和课程集合。','赢得真实Pi Coin奖励的游戏竞技场。','Pi社区社交网络。寻找合作伙伴共同建设。'],tags:['支付 · Pi SDK','租赁 · Pi Coin','贸易 · 市场','教育 · 知识','游戏 · 奖励','社区 · 网络'],footer:'© 2025 AiVault.pi — 基于Pi Network构建'},
+  es:{sub:'El ecosistema completo de Pi Network — Pagos, Alquiler, Mercado, Cultura, Juegos y Conexión',nav:['💳 Pi Pago','🏠 Pi Alquiler','🛍️ Pi Bazar','📚 Biblioteca','🎮 Juegos','🔗 Pi Connect'],titles:['Pi Pago','Pi Alquiler','Pi Bazar','Biblioteca','Juegos','Pi Connect'],descs:['Envía y recibe Pi Coin directamente. Pagos rápidos y seguros.','Alquila propiedades y equipos con Pi Coin.','Mercado digital para comprar y vender con Pi Coin.','Colección de libros digitales y cursos con acceso Pi Coin.','Arena de juegos con recompensas reales en Pi Coin.','Red social de la comunidad Pi. Encuentra socios y construye.'],tags:['Pagos · Pi SDK','Alquiler · Pi Coin','Comercio · Mercado','Educación · Conocimiento','Gaming · Recompensas','Comunidad · Red'],footer:'© 2025 AiVault.pi — Construido en Pi Network'},
+  fr:{sub:"L'écosystème complet de Pi Network — Paiements, Location, Marché, Culture, Jeux & Connexion",nav:['💳 Pi Paiement','🏠 Pi Location','🛍️ Pi Bazar','📚 Bibliothèque','🎮 Jeux','🔗 Pi Connect'],titles:['Pi Paiement','Pi Location','Pi Bazar','Bibliothèque','Jeux','Pi Connect'],descs:['Envoyez et recevez Pi Coin directement. Paiements rapides et sécurisés.','Louez des propriétés et équipements avec Pi Coin.','Marché numérique pour acheter et vendre avec Pi Coin.','Collection de livres numériques et cours avec accès Pi Coin.','Arène de jeux avec de vraies récompenses Pi Coin.','Réseau social de la communauté Pi. Trouvez des partenaires.'],tags:['Paiements · Pi SDK','Location · Pi Coin','Commerce · Marché','Éducation · Savoir','Gaming · Récompenses','Communauté · Réseau'],footer:'© 2025 AiVault.pi — Construit sur Pi Network'},
+  ar:{sub:'النظام البيئي الكامل لـ Pi Network — المدفوعات، الإيجار، السوق، الثقافة، الألعاب والتواصل',nav:['💳 Pi دفع','🏠 Pi إيجار','🛍️ Pi بازار','📚 مكتبة','🎮 ألعاب','🔗 Pi تواصل'],titles:['Pi دفع','Pi إيجار','Pi بازار','مكتبة','ألعاب','Pi تواصل'],descs:['أرسل واستقبل Pi Coin مباشرة. مدفوعات سريعة وآمنة.','استأجر العقارات والمعدات باستخدام Pi Coin.','سوق رقمي للشراء والبيع باستخدام Pi Coin.','مجموعة من الكتب الرقمية والدورات مع وصول Pi Coin.','ساحة ألعاب مع مكافآت حقيقية بـ Pi Coin.','شبكة اجتماعية لمجتمع Pi. ابحث عن شركاء وابنِ معاً.'],tags:['مدفوعات · Pi SDK','إيجار · Pi Coin','تجارة · سوق','تعليم · معرفة','ألعاب · مكافآت','مجتمع · شبكة'],footer:'© 2025 AiVault.pi — مبني على Pi Network'},
+  ru:{sub:'Полная экосистема Pi Network — Платежи, Аренда, Рынок, Культура, Игры и Связь',nav:['💳 Pi Платёж','🏠 Pi Аренда','🛍️ Pi Базар','📚 Библиотека','🎮 Игры','🔗 Pi Connect'],titles:['Pi Платёж','Pi Аренда','Pi Базар','Библиотека','Игры','Pi Connect'],descs:['Отправляйте и получайте Pi Coin напрямую. Быстрые и безопасные платежи.','Арендуйте недвижимость и оборудование с Pi Coin.','Цифровой рынок для покупки и продажи с Pi Coin.','Коллекция цифровых книг и курсов с доступом Pi Coin.','Игровая арена с реальными наградами Pi Coin.','Социальная сеть сообщества Pi. Найдите партнёров.'],tags:['Платежи · Pi SDK','Аренда · Pi Coin','Торговля · Рынок','Образование · Знания','Игры · Награды','Сообщество · Сеть'],footer:'© 2025 AiVault.pi — Построено на Pi Network'},
+  pt:{sub:'O ecossistema completo da Pi Network — Pagamentos, Aluguel, Mercado, Cultura, Jogos e Conexão',nav:['💳 Pi Pagamento','🏠 Pi Aluguel','🛍️ Pi Bazar','📚 Biblioteca','🎮 Jogos','🔗 Pi Connect'],titles:['Pi Pagamento','Pi Aluguel','Pi Bazar','Biblioteca','Jogos','Pi Connect'],descs:['Envie e receba Pi Coin diretamente. Pagamentos rápidos e seguros.','Alugue propriedades e equipamentos com Pi Coin.','Mercado digital para comprar e vender com Pi Coin.','Coleção de livros digitais e cursos com acesso Pi Coin.','Arena de jogos com recompensas reais em Pi Coin.','Rede social da comunidade Pi. Encontre parceiros.'],tags:['Pagamentos · Pi SDK','Aluguel · Pi Coin','Comércio · Mercado','Educação · Conhecimento','Gaming · Recompensas','Comunidade · Rede'],footer:'© 2025 AiVault.pi — Construído na Pi Network'},
+  hi:{sub:'Pi Network का पूर्ण पारिस्थितिकी तंत्र — भुगतान, किराया, बाज़ार, संस्कृति, गेमिंग और कनेक्ट',nav:['💳 Pi भुगतान','🏠 Pi किराया','🛍️ Pi बाज़ार','📚 पुस्तकालय','🎮 खेल','🔗 Pi कनेक्ट'],titles:['Pi भुगतान','Pi किराया','Pi बाज़ार','पुस्तकालय','खेल','Pi कनेक्ट'],descs:['Pi Coin सीधे भेजें और प्राप्त करें। तेज़ और सुरक्षित भुगतान।','Pi Coin से संपत्ति और उपकरण किराए पर लें।','Pi Coin से खरीदने और बेचने के लिए डिजिटल बाज़ार।','Pi Coin एक्सेस के साथ डिजिटल पुस्तकें और पाठ्यक्रम।','वास्तविक Pi Coin पुरस्कारों के साथ गेमिंग।','Pi समुदाय सामाजिक नेटवर्क। साझेदार खोजें।'],tags:['भुगतान · Pi SDK','किराया · Pi Coin','व्यापार · बाज़ार','शिक्षा · ज्ञान','गेमिंग · पुरस्कार','समुदाय · नेटवर्क'],footer:'© 2025 AiVault.pi — Pi Network पर निर्मित'},
+  ja:{sub:'Pi Networkの完全なエコシステム — 支払い、レンタル、マーケット、文化、ゲーム＆コネクト',nav:['💳 Pi支払い','🏠 Pi賃貸','🛍️ Piバザー','📚 図書館','🎮 ゲーム','🔗 Piコネクト'],titles:['Pi支払い','Pi賃貸','Piバザー','図書館','ゲーム','Piコネクト'],descs:['Pi Coinを直接送受信。高速で安全な支払い。','Pi Coinで不動産や機器を賃貸。','Pi Coinで売買するデジタルマーケット。','Pi Coinアクセスのデジタル書籍とコース。','本物のPi Coin報酬があるゲームアリーナ。','Piコミュニティのソーシャルネットワーク。'],tags:['支払い · Pi SDK','賃貸 · Pi Coin','取引 · マーケット','教育 · 知識','ゲーム · 報酬','コミュニティ · ネットワーク'],footer:'© 2025 AiVault.pi — Pi Networkで構築'}
+};
+
+function setLang(lang,btn){
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var t=T[lang];
+  document.getElementById('heroSub').textContent=t.sub;
+  for(var i=1;i<=6;i++){
+    document.getElementById('nav'+i).textContent=t.nav[i-1];
+    document.getElementById('t'+i).textContent=t.titles[i-1];
+    document.getElementById('d'+i).textContent=t.descs[i-1];
+    document.getElementById('tag'+i).textContent=t.tags[i-1];
+  }
+  document.getElementById('footer').textContent=t.footer;
+  document.body.style.direction=lang==='ar'?'rtl':'ltr';
+}
+</script>
 </body>
 </html>
